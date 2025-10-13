@@ -1,0 +1,17 @@
+{
+  "mcpServers": {
+    "fasttransfer": {
+      "type": "stdio",
+      "command": "python",
+      "args": [
+        "/absolute/path/to/fasttransfer-mcp/src/server.py"
+      ],
+      "env": {
+        "FASTTRANSFER_PATH": "/absolute/path/to/fasttransfer/FastTransfer",
+        "FASTTRANSFER_TIMEOUT": "1800",
+        "FASTTRANSFER_LOG_DIR": "./logs",
+        "LOG_LEVEL": "INFO"
+      }
+    }
+  }
+}
