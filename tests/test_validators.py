@@ -411,7 +411,10 @@ class TestTransferRequest:
                 },
             )
         errors = exc_info.value.errors()
-        assert any("table" in str(e) or "query" in str(e) or "file_input" in str(e) for e in errors)
+        assert any(
+            "table" in str(e) or "query" in str(e) or "file_input" in str(e)
+            for e in errors
+        )
 
     def test_source_cannot_have_both_table_and_query(self):
         """Test that source cannot have both table and query."""

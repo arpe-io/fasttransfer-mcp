@@ -205,9 +205,22 @@ class TestVersionDetector:
         """Test that 0.16.0.0 registry has all expected source types."""
         caps = VERSION_REGISTRY["0.16.0.0"]
         expected = {
-            "clickhouse", "duckdb", "duckdbstream", "hana", "mssql",
-            "msoledbsql", "mysql", "nzoledb", "nzsql", "nzbulk",
-            "odbc", "oledb", "oraodp", "pgcopy", "pgsql", "teradata",
+            "clickhouse",
+            "duckdb",
+            "duckdbstream",
+            "hana",
+            "mssql",
+            "msoledbsql",
+            "mysql",
+            "nzoledb",
+            "nzsql",
+            "nzbulk",
+            "odbc",
+            "oledb",
+            "oraodp",
+            "pgcopy",
+            "pgsql",
+            "teradata",
         }
         assert caps.source_types == expected
 
@@ -215,8 +228,17 @@ class TestVersionDetector:
         """Test that 0.16.0.0 registry has all expected target types."""
         caps = VERSION_REGISTRY["0.16.0.0"]
         expected = {
-            "clickhousebulk", "duckdb", "hanabulk", "msbulk", "mysqlbulk",
-            "nzbulk", "orabulk", "oradirect", "pgcopy", "pgsql", "teradata",
+            "clickhousebulk",
+            "duckdb",
+            "hanabulk",
+            "msbulk",
+            "mysqlbulk",
+            "nzbulk",
+            "orabulk",
+            "oradirect",
+            "pgcopy",
+            "pgsql",
+            "teradata",
         }
         assert caps.target_types == expected
 
@@ -224,7 +246,14 @@ class TestVersionDetector:
         """Test that 0.16.0.0 registry has all expected parallelism methods."""
         caps = VERSION_REGISTRY["0.16.0.0"]
         expected = {
-            "Ctid", "DataDriven", "Ntile", "NZDataSlice", "None",
-            "Physloc", "Random", "RangeId", "Rowid",
+            "Ctid",
+            "DataDriven",
+            "Ntile",
+            "NZDataSlice",
+            "None",
+            "Physloc",
+            "Random",
+            "RangeId",
+            "Rowid",
         }
         assert caps.parallelism_methods == expected
