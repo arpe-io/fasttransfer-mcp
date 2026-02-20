@@ -35,20 +35,6 @@ Recommend the optimal parallelism method based on source database type and table
 ### 6. `get_version`
 Report the detected FastTransfer binary version, supported types, and feature flags.
 
-## Parallelism Methods
-
-| Method | Best For | Requires Key |
-|--------|----------|:------------:|
-| `Ctid` | PostgreSQL sources | No |
-| `Rowid` | Oracle sources | No |
-| `Physloc` | SQL Server sources without numeric key | No |
-| `NZDataSlice` | Netezza sources | No |
-| `RangeId` | Large tables with numeric key | Yes |
-| `Random` | Tables with evenly distributed numeric key | Yes |
-| `DataDriven` | Any column type, distinct values | Yes |
-| `Ntile` | Even distribution across workers | Yes |
-| `None` | Small tables or troubleshooting | No |
-
 ## Installation
 
 ### Prerequisites
@@ -246,4 +232,3 @@ This MCP server wrapper is provided as-is. FastTransfer itself is a separate pro
 
 - [FastTransfer Documentation](https://aetperf.github.io/FastTransfer-Documentation/)
 - [Model Context Protocol](https://modelcontextprotocol.io/)
-- [Claude Code](https://claude.com/claude-code)
