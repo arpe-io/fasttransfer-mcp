@@ -5,6 +5,25 @@ All notable changes to the FastTransfer MCP Server will be documented in this fi
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [0.1.1] - 2026-02-20
+
+### Added
+
+- `pyproject.toml` with hatchling build backend, PyPI metadata, and `fasttransfer-mcp` console script entry point
+- MIT LICENSE file (copyright Arpe.io)
+- MCP Registry marker in README (`<!-- mcp-name: io.github.aetperf/fasttransfer-mcp -->`)
+
+### Changed
+
+- README rewritten: focused on MCP tools and configuration, removed database-specific reference tables
+- Entry point renamed from `cli()` to `main()` for console script compatibility
+- Code formatted with Black and Ruff
+
+### Removed
+
+- `verify_installation.sh` (superseded by `get_version` tool)
+- `example_config.json` (duplicated by README installation section)
+
 ## [0.1.0] - 2026-02-20
 
 ### Added
