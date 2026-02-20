@@ -1,0 +1,28 @@
+# Changelog
+
+All notable changes to the FastTransfer MCP Server will be documented in this file.
+
+The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
+and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
+
+## [0.1.0] - 2026-02-20
+
+### Added
+
+- MCP server with six tools: `preview_transfer_command`, `execute_transfer`, `validate_connection`, `list_supported_combinations`, `suggest_parallelism_method`, `get_version`
+- Version detection module (`src/version.py`) with static capability registry for FastTransfer v0.16.0.0
+  - `FastTransferVersion` dataclass with comparison operators
+  - `VersionDetector` with subprocess-based detection, caching, and graceful fallback
+  - `VersionCapabilities` registry mapping versions to supported types and feature flags
+- 16 source connection types: `clickhouse`, `duckdb`, `duckdbstream`, `hana`, `mssql`, `msoledbsql`, `mysql`, `nzoledb`, `nzsql`, `nzbulk`, `odbc`, `oledb`, `oraodp`, `pgcopy`, `pgsql`, `teradata`
+- 11 target connection types: `clickhousebulk`, `duckdb`, `hanabulk`, `msbulk`, `mysqlbulk`, `nzbulk`, `orabulk`, `oradirect`, `pgcopy`, `pgsql`, `teradata`
+- 9 parallelism methods: `Ctid`, `DataDriven`, `Ntile`, `NZDataSlice`, `None`, `Physloc`, `Random`, `RangeId`, `Rowid`
+- Flexible connection configuration: `server` (optional), `connect_string`, `dsn`, `provider`, `file_input`, `trusted_auth`
+- Mutual exclusivity validation for connection parameters
+- Transfer options: `data_driven_query`, `use_work_tables`, `settings_file`, `log_level`, `no_banner`, `license_path`
+- `LogLevel` enum: `error`, `warning`, `information`, `debug`, `fatal`
+- Physloc method validation (SQL Server sources only)
+- Password and connection string masking in command output
+- DuckDB Stream file import as a source category
+- Parallelism suggestion engine with Physloc recommendation for SQL Server without numeric key
+- 122 tests across three test modules
