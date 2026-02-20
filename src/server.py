@@ -16,12 +16,10 @@ This server provides six tools:
 
 import os
 import sys
-import json
 import logging
 import asyncio
 from pathlib import Path
-from typing import Any, Dict, Optional
-from datetime import datetime
+from typing import Any, Dict
 
 # Add parent directory to path for imports
 sys.path.insert(0, str(Path(__file__).parent.parent))
@@ -38,7 +36,6 @@ except ImportError as e:
 
 from src.validators import (
     TransferRequest,
-    ConnectionConfig,
     ConnectionValidationRequest,
     ParallelismSuggestionRequest,
     SourceConnectionType,

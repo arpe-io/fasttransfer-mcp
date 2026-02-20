@@ -396,7 +396,7 @@ class CommandBuilder:
             masked_cmd = self.mask_password(command)
 
             with open(log_file, "w") as f:
-                f.write(f"FastTransfer Execution Log\n")
+                f.write("FastTransfer Execution Log\n")
                 f.write(f"{'=' * 80}\n\n")
                 f.write(f"Timestamp: {datetime.now().isoformat()}\n")
                 f.write(f"Duration: {duration:.2f} seconds\n")
