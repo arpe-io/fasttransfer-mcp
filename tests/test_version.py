@@ -7,7 +7,6 @@ import pytest
 
 from src.version import (
     FastTransferVersion,
-    VersionCapabilities,
     VersionDetector,
     VERSION_REGISTRY,
 )

@@ -1,9 +1,7 @@
 """Tests for FastTransfer command builder."""
 
-import os
-import tempfile
 from pathlib import Path
-from unittest.mock import Mock, patch, MagicMock
+from unittest.mock import Mock, patch
 import subprocess
 
 import pytest
@@ -14,7 +12,7 @@ from src.fasttransfer import (
     get_supported_combinations,
     suggest_parallelism_method,
 )
-from src.validators import TransferRequest, ParallelismMethod
+from src.validators import TransferRequest
 from src.version import FastTransferVersion
 
 
