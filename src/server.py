@@ -835,24 +835,23 @@ def _build_transfer_explanation(request: TransferRequest) -> str:
     return "\n".join(f"{i+1}. {part}" for i, part in enumerate(parts))
 
 
-async def main():
-    """Async entry point for the MCP server."""
+async def _run():
+    """Async server startup logic."""
     logger.info("Starting FastTransfer MCP Server...")
     logger.info(f"FastTransfer binary: {FASTTRANSFER_PATH}")
     logger.info(f"Execution timeout: {FASTTRANSFER_TIMEOUT}s")
     logger.info(f"Log directory: {FASTTRANSFER_LOG_DIR}")
 
-    # Run the server
     from mcp.server.stdio import stdio_server
 
     async with stdio_server() as (read_stream, write_stream):
         await app.run(read_stream, write_stream, app.create_initialization_options())
 
 
-def cli():
-    """Synchronous entry point for the console script."""
-    asyncio.run(main())
+def main():
+    """Entry point for the MCP server (console script)."""
+    asyncio.run(_run())
 
 
 if __name__ == "__main__":
-    cli()
+    main()

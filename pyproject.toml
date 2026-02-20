@@ -37,7 +37,7 @@ dev = [
 ]
 
 [project.scripts]
-fasttransfer-mcp = "src.server:cli"
+fasttransfer-mcp = "src.server:main"
 
 [project.urls]
 Homepage = "https://aetperf.github.io/FastTransfer-Documentation/"
