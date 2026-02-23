@@ -1,7 +1,7 @@
 {
   "$schema": "https://static.modelcontextprotocol.io/schemas/2025-12-11/server.schema.json",
   "name": "io.github.arpe-io/fasttransfer-mcp",
-  "description": "MCP server for FastTransfer — high-performance parallel streaming data transfer between databases and file import (CSV, Parquet, JSON, XLSX). Sources include PostgreSQL, SQL Server, Oracle, MySQL, ClickHouse, DuckDB, SAP HANA and 80+ compatible databases. 9 certified target databases with bulk loading.",
+  "description": "MCP server for FastTransfer — high-performance parallel data transfer between databases",
   "repository": {
     "url": "https://github.com/arpe-io/fasttransfer-mcp",
     "source": "github"
