@@ -41,8 +41,8 @@ fasttransfer-mcp = "src.server:main"
 
 [project.urls]
 Homepage = "https://aetperf.github.io/FastTransfer-Documentation/"
-Repository = "https://github.com/aetperf/fasttransfer-mcp"
-Issues = "https://github.com/aetperf/fasttransfer-mcp/issues"
+Repository = "https://github.com/arpe-io/fasttransfer-mcp"
+Issues = "https://github.com/arpe-io/fasttransfer-mcp/issues"
 
 [tool.hatch.build.targets.wheel]
 packages = ["src"]
