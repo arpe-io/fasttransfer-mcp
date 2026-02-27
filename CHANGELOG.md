@@ -2,6 +2,11 @@
 
 All notable changes to the FastTransfer MCP Server will be documented in this file.
 
+## [0.1.5] - 2026-02-27
+
+### Added
+- Version compatibility check infrastructure in `preview_transfer_command` output
+
 ## [0.1.4] - 2026-02-24
 
 ### Added

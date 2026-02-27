@@ -9,6 +9,7 @@ from src.version import (
     FastTransferVersion,
     VersionDetector,
     VERSION_REGISTRY,
+    check_version_compatibility,
 )
 
 
@@ -256,3 +257,31 @@ class TestVersionDetector:
             "Rowid",
         }
         assert caps.parallelism_methods == expected
+
+
+class TestCheckVersionCompatibility:
+    """Tests for check_version_compatibility function."""
+
+    def test_basic_params_no_warnings(self):
+        """Basic params produce no warnings."""
+        caps = VERSION_REGISTRY["0.16.0.0"]
+        version = FastTransferVersion(0, 16, 0, 0)
+        warnings = check_version_compatibility(
+            {"source": {"type": "pgsql"}}, caps, version
+        )
+        assert warnings == []
+
+    def test_empty_params_no_warnings(self):
+        """Empty params produce no warnings."""
+        caps = VERSION_REGISTRY["0.16.0.0"]
+        version = FastTransferVersion(0, 16, 0, 0)
+        warnings = check_version_compatibility({}, caps, version)
+        assert warnings == []
+
+    def test_none_version_no_warnings(self):
+        """None detected version with basic params produces no warnings."""
+        caps = VERSION_REGISTRY["0.16.0.0"]
+        warnings = check_version_compatibility(
+            {"source": {"type": "pgsql"}}, caps, None
+        )
+        assert warnings == []
