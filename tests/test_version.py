@@ -214,7 +214,7 @@ class TestVersionDetector:
             "mysql",
             "nzoledb",
             "nzsql",
-            "nzbulk",
+            "nzcopy",
             "odbc",
             "oledb",
             "oraodp",

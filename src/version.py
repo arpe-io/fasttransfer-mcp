@@ -95,7 +95,7 @@ VERSION_REGISTRY: Dict[str, VersionCapabilities] = {
                 "mysql",
                 "nzoledb",
                 "nzsql",
-                "nzbulk",
+                "nzcopy",
                 "odbc",
                 "oledb",
                 "oraodp",

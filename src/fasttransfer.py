@@ -37,18 +37,23 @@ class CommandBuilder:
 
         Args:
             binary_path: Path to the FastTransfer binary
-
-        Raises:
-            FastTransferError: If binary doesn't exist or isn't executable
         """
         self.binary_path = Path(binary_path)
+        self._preview_only = False
         self._validate_binary()
-        self._version_detector = VersionDetector(str(self.binary_path))
-        detected = self._version_detector.detect()
-        if detected:
-            logger.info(f"FastTransfer version {detected} detected")
+
+        if self._preview_only:
+            # Skip version detection; use latest known capabilities as fallback
+            self._version_detector = VersionDetector(str(self.binary_path))
+            self._version_detector._detection_done = True  # skip running the binary
+            logger.info("Running in preview-only mode (binary not found)")
         else:
-            logger.warning("Could not detect FastTransfer version")
+            self._version_detector = VersionDetector(str(self.binary_path))
+            detected = self._version_detector.detect()
+            if detected:
+                logger.info(f"FastTransfer version {detected} detected")
+            else:
+                logger.warning("Could not detect FastTransfer version")
 
     @property
     def version_detector(self) -> VersionDetector:
@@ -60,7 +65,28 @@ class CommandBuilder:
 
         Returns:
             Dict with version string, detection status, binary path, and capabilities.
+            When in preview-only mode, includes preview_only flag and install message.
         """
+        if self._preview_only:
+            caps = self._version_detector.capabilities
+            return {
+                "preview_only": True,
+                "binary_path": str(self.binary_path),
+                "message": "Binary not found. Install from https://arpe.io",
+                "version": None,
+                "detected": False,
+                "capabilities": {
+                    "source_types": sorted(caps.source_types),
+                    "target_types": sorted(caps.target_types),
+                    "parallelism_methods": sorted(caps.parallelism_methods),
+                    "supports_nobanner": caps.supports_nobanner,
+                    "supports_version_flag": caps.supports_version_flag,
+                    "supports_file_input": caps.supports_file_input,
+                    "supports_settings_file": caps.supports_settings_file,
+                    "supports_license_path": caps.supports_license_path,
+                },
+            }
+
         detected = self._version_detector.detect()
         caps = self._version_detector.capabilities
 
@@ -81,21 +107,33 @@ class CommandBuilder:
         }
 
     def _validate_binary(self) -> None:
-        """Validate that FastTransfer binary exists and is executable."""
+        """Validate that FastTransfer binary exists and is executable.
+
+        If the binary is not found, sets preview-only mode instead of raising.
+        """
         if not self.binary_path.exists():
-            raise FastTransferError(
-                f"FastTransfer binary not found at: {self.binary_path}"
+            logger.warning(
+                f"FastTransfer binary not found at: {self.binary_path}. "
+                "Entering preview-only mode. Install from https://arpe.io"
             )
+            self._preview_only = True
+            return
 
         if not self.binary_path.is_file():
-            raise FastTransferError(
-                f"FastTransfer path is not a file: {self.binary_path}"
+            logger.warning(
+                f"FastTransfer path is not a file: {self.binary_path}. "
+                "Entering preview-only mode. Install from https://arpe.io"
             )
+            self._preview_only = True
+            return
 
         if not os.access(self.binary_path, os.X_OK):
-            raise FastTransferError(
-                f"FastTransfer binary is not executable: {self.binary_path}"
+            logger.warning(
+                f"FastTransfer binary is not executable: {self.binary_path}. "
+                "Entering preview-only mode. Install from https://arpe.io"
             )
+            self._preview_only = True
+            return
 
     def build_command(self, request: TransferRequest) -> List[str]:
         """
@@ -334,6 +372,12 @@ class CommandBuilder:
             subprocess.TimeoutExpired: If execution exceeds timeout
             FastTransferError: If execution fails
         """
+        if self._preview_only:
+            raise FastTransferError(
+                f"Server is in preview-only mode (binary not found at {self.binary_path}). "
+                "Install the binary from https://arpe.io to enable execution."
+            )
+
         start_time = datetime.now()
 
         # Log command execution (with masked passwords)

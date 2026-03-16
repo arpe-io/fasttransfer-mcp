@@ -78,12 +78,19 @@ app = Server("fasttransfer")
 try:
     command_builder = CommandBuilder(FASTTRANSFER_PATH)
     version_info = command_builder.get_version()
-    logger.info(f"FastTransfer binary found at: {FASTTRANSFER_PATH}")
-    if version_info["detected"]:
-        logger.info(f"FastTransfer version: {version_info['version']}")
+    if command_builder._preview_only:
+        logger.warning(
+            f"FastTransfer binary not found at: {FASTTRANSFER_PATH}. "
+            "Server running in preview-only mode. "
+            "Install the binary from https://arpe.io to enable execution."
+        )
     else:
-        logger.warning("FastTransfer version could not be detected")
-except FastTransferError as e:
+        logger.info(f"FastTransfer binary found at: {FASTTRANSFER_PATH}")
+        if version_info["detected"]:
+            logger.info(f"FastTransfer version: {version_info['version']}")
+        else:
+            logger.warning("FastTransfer version could not be detected")
+except Exception as e:
     logger.error(f"Failed to initialize CommandBuilder: {e}")
     command_builder = None
 
@@ -450,6 +457,17 @@ async def handle_preview_transfer(arguments: Dict[str, Any]) -> list[TextContent
         response = [
             "# FastTransfer Command Preview",
             "",
+        ]
+
+        if command_builder._preview_only:
+            response += [
+                "**NOTE: Server is in preview-only mode (binary not found at "
+                f"{command_builder.binary_path}). "
+                "Install the binary from https://arpe.io to enable execution.**",
+                "",
+            ]
+
+        response += [
             "## What this command will do:",
             explanation,
         ]
@@ -509,6 +527,17 @@ async def handle_execute_transfer(arguments: Dict[str, Any]) -> list[TextContent
             TextContent(
                 type="text",
                 text="Error: FastTransfer binary not found. Please check FASTTRANSFER_PATH.",
+            )
+        ]
+
+    if command_builder._preview_only:
+        return [
+            TextContent(
+                type="text",
+                text=(
+                    f"Server is in preview-only mode (binary not found at {command_builder.binary_path}). "
+                    "Install the binary from https://arpe.io to enable execution."
+                ),
             )
         ]
 
@@ -768,10 +797,26 @@ async def handle_get_version(arguments: Dict[str, Any]) -> list[TextContent]:
     response = [
         "# FastTransfer Version Information",
         "",
-        f"**Version**: {version_info['version'] or 'Unknown'}",
-        f"**Detected**: {'Yes' if version_info['detected'] else 'No'}",
-        f"**Binary Path**: {version_info['binary_path']}",
-        "",
+    ]
+
+    if version_info.get("preview_only"):
+        response += [
+            "**Mode**: Preview-only (binary not found)",
+            f"**Binary Path**: {version_info['binary_path']}",
+            f"**Message**: {version_info['message']}",
+            "",
+            "Capabilities below are based on the latest known FastTransfer version.",
+            "",
+        ]
+    else:
+        response += [
+            f"**Version**: {version_info['version'] or 'Unknown'}",
+            f"**Detected**: {'Yes' if version_info['detected'] else 'No'}",
+            f"**Binary Path**: {version_info['binary_path']}",
+            "",
+        ]
+
+    response += [
         "## Supported Source Types:",
         ", ".join(f"`{t}`" for t in caps["source_types"]),
         "",
